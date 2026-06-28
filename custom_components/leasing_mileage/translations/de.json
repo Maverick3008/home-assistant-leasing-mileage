@@ -4,24 +4,28 @@
     "step": {
       "user": {
         "title": "Leasing-Fahrzeug hinzufügen",
-        "description": "Richte ein Leasing-Fahrzeug ein. Die Integration erstellt mehrere Sensoren für Kilometer-Prognose und mögliche Nachzahlung.",
+        "description": "Richte ein Leasing-Fahrzeug ein. Die Integration erstellt mehrere Sensoren für Strecken-Prognose und mögliche Nachzahlung.",
         "data": {
           "vehicle_name": "Bezeichnung Leasing Fahrzeug",
           "lease_start": "Leasing Start",
           "lease_end": "Leasing Ende",
-          "odometer_entity": "Aktueller Kilometerstand",
-          "start_odometer": "Kilometerstand zu Leasingstart",
-          "included_km": "Inklusive Leasing-Kilometer",
-          "excess_cost": "Kosten je Mehr-km"
+          "distance_unit_system": "Einheitensystem",
+          "odometer_entity": "Aktueller Kilometerstand / Meilenstand",
+          "start_odometer": "Tachostand zu Leasingstart",
+          "included_km": "Inklusive Leasing-Strecke",
+          "excess_cost": "Preis pro Mehr-Strecke bei Überschreitung",
+          "currency": "Währung"
         },
         "data_description": {
           "vehicle_name": "Zum Beispiel: Cupra",
           "lease_start": "Startdatum des Leasingvertrags.",
           "lease_end": "Enddatum des Leasingvertrags.",
-          "odometer_entity": "Sensor oder input_number, der/die den aktuellen Kilometerstand des Fahrzeugs in km liefert.",
-          "start_odometer": "Tachostand am Leasingstart. Bei Neuwagen meistens 0.",
-          "included_km": "Gesamte vereinbarte Kilometer für den Leasingzeitraum, z. B. 32500.",
-          "excess_cost": "Preis pro Mehrkilometer in Euro, z. B. 0.10."
+          "distance_unit_system": "Wähle aus, ob Tachostand, inklusive Leasing-Strecke und Strecken-Sensoren in Kilometern oder Meilen geführt werden sollen.",
+          "odometer_entity": "Sensor oder input_number, der/die den aktuellen Tachostand des Fahrzeugs in der ausgewählten Einheit liefert.",
+          "start_odometer": "Tachostand am Leasingstart in der ausgewählten Einheit. Bei Neuwagen meistens 0.",
+          "included_km": "Gesamte vereinbarte Strecke für den Leasingzeitraum, z. B. 32500 km oder 20000 mi.",
+          "excess_cost": "Preis pro zusätzlicher Streckeneinheit, z. B. 0.10 pro km oder pro Meile.",
+          "currency": "Währung für den Nachzahlungs-Sensor."
         }
       }
     },
@@ -30,7 +34,9 @@
       "invalid_date": "Bitte gib gültige Datumswerte ein.",
       "lease_end_before_start": "Das Leasingende muss nach dem Leasingstart liegen.",
       "invalid_number": "Bitte gib eine gültige Zahl ein.",
-      "included_km_required": "Die inklusive Leasinglaufleistung muss größer als 0 sein."
+      "included_km_required": "Die inklusive Leasing-Strecke muss größer als 0 sein.",
+      "invalid_unit_system": "Bitte wähle ein gültiges Einheitensystem aus.",
+      "invalid_currency": "Bitte wähle eine gültige Währung aus."
     },
     "abort": {
       "already_configured": "Dieses Leasing-Fahrzeug ist bereits konfiguriert."
@@ -45,19 +51,23 @@
           "vehicle_name": "Bezeichnung Leasing Fahrzeug",
           "lease_start": "Leasing Start",
           "lease_end": "Leasing Ende",
-          "odometer_entity": "Aktueller Kilometerstand",
-          "start_odometer": "Kilometerstand zu Leasingstart",
-          "included_km": "Inklusive Leasing-Kilometer",
-          "excess_cost": "Kosten je Mehr-km"
+          "distance_unit_system": "Einheitensystem",
+          "odometer_entity": "Aktueller Kilometerstand / Meilenstand",
+          "start_odometer": "Tachostand zu Leasingstart",
+          "included_km": "Inklusive Leasing-Strecke",
+          "excess_cost": "Preis pro Mehr-Strecke bei Überschreitung",
+          "currency": "Währung"
         },
         "data_description": {
           "vehicle_name": "Zum Beispiel: Cupra",
           "lease_start": "Startdatum des Leasingvertrags.",
           "lease_end": "Enddatum des Leasingvertrags.",
-          "odometer_entity": "Sensor oder input_number, der/die den aktuellen Kilometerstand des Fahrzeugs in km liefert.",
-          "start_odometer": "Tachostand am Leasingstart. Bei Neuwagen meistens 0.",
-          "included_km": "Gesamte vereinbarte Kilometer für den Leasingzeitraum, z. B. 32500.",
-          "excess_cost": "Preis pro Mehrkilometer in Euro, z. B. 0.10."
+          "distance_unit_system": "Wähle aus, ob Tachostand, inklusive Leasing-Strecke und Strecken-Sensoren in Kilometern oder Meilen geführt werden sollen.",
+          "odometer_entity": "Sensor oder input_number, der/die den aktuellen Tachostand des Fahrzeugs in der ausgewählten Einheit liefert.",
+          "start_odometer": "Tachostand am Leasingstart in der ausgewählten Einheit. Bei Neuwagen meistens 0.",
+          "included_km": "Gesamte vereinbarte Strecke für den Leasingzeitraum, z. B. 32500 km oder 20000 mi.",
+          "excess_cost": "Preis pro zusätzlicher Streckeneinheit, z. B. 0.10 pro km oder pro Meile.",
+          "currency": "Währung für den Nachzahlungs-Sensor."
         }
       }
     },
@@ -66,7 +76,25 @@
       "invalid_date": "Bitte gib gültige Datumswerte ein.",
       "lease_end_before_start": "Das Leasingende muss nach dem Leasingstart liegen.",
       "invalid_number": "Bitte gib eine gültige Zahl ein.",
-      "included_km_required": "Die inklusive Leasinglaufleistung muss größer als 0 sein."
+      "included_km_required": "Die inklusive Leasing-Strecke muss größer als 0 sein.",
+      "invalid_unit_system": "Bitte wähle ein gültiges Einheitensystem aus.",
+      "invalid_currency": "Bitte wähle eine gültige Währung aus."
+    }
+  },
+  "selector": {
+    "distance_unit_system": {
+      "options": {
+        "metric": "Metrisch (km)",
+        "imperial": "Imperial (Meilen)"
+      }
+    },
+    "currency": {
+      "options": {
+        "EUR": "Euro (€)",
+        "USD": "US Dollar ($)",
+        "GBP": "British Pound (£)",
+        "CHF": "Swiss Franc (CHF)"
+      }
     }
   }
 }

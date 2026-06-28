@@ -14,6 +14,8 @@ from homeassistant.helpers.typing import ConfigType
 from homeassistant.util import slugify
 
 from .const import (
+    CONF_CURRENCY,
+    CONF_DISTANCE_UNIT_SYSTEM,
     CONF_EXCESS_COST,
     CONF_INCLUDED_KM,
     CONF_LEASE_END,
@@ -21,6 +23,12 @@ from .const import (
     CONF_ODOMETER_ENTITY,
     CONF_START_ODOMETER,
     CONF_VEHICLE_NAME,
+    CURRENCY_CHF,
+    CURRENCY_EUR,
+    CURRENCY_GBP,
+    CURRENCY_USD,
+    DEFAULT_CURRENCY,
+    DEFAULT_DISTANCE_UNIT_SYSTEM,
     DEFAULT_EXCESS_COST,
     DEFAULT_INCLUDED_KM,
     DEFAULT_LEASE_END,
@@ -28,7 +36,16 @@ from .const import (
     DEFAULT_START_ODOMETER,
     DEFAULT_VEHICLE_NAME,
     DOMAIN,
+    UNIT_SYSTEM_IMPERIAL,
+    UNIT_SYSTEM_METRIC,
 )
+
+UNIT_SYSTEM_OPTIONS = [UNIT_SYSTEM_METRIC, UNIT_SYSTEM_IMPERIAL]
+
+CURRENCY_OPTIONS = [CURRENCY_EUR, CURRENCY_USD, CURRENCY_GBP, CURRENCY_CHF]
+
+VALID_UNIT_SYSTEMS = {UNIT_SYSTEM_METRIC, UNIT_SYSTEM_IMPERIAL}
+VALID_CURRENCIES = {CURRENCY_EUR, CURRENCY_USD, CURRENCY_GBP, CURRENCY_CHF}
 
 
 def _date_from_string(value: str) -> date:
@@ -44,6 +61,17 @@ def _number_selector(min_value: float = 0, step: float = 1) -> selector.NumberSe
             max=1_000_000,
             step=step,
             mode=selector.NumberSelectorMode.BOX,
+        )
+    )
+
+
+def _select_selector(options: list[str], translation_key: str) -> selector.SelectSelector:
+    """Return a Home Assistant select selector displayed as radio buttons."""
+    return selector.SelectSelector(
+        selector.SelectSelectorConfig(
+            options=options,
+            mode=selector.SelectSelectorMode.LIST,
+            translation_key=translation_key,
         )
     )
 
@@ -73,6 +101,12 @@ def _schema(defaults: ConfigType | None = None) -> vol.Schema:
                 CONF_LEASE_END,
                 default=defaults.get(CONF_LEASE_END, DEFAULT_LEASE_END),
             ): selector.DateSelector(),
+            vol.Required(
+                CONF_DISTANCE_UNIT_SYSTEM,
+                default=defaults.get(
+                    CONF_DISTANCE_UNIT_SYSTEM, DEFAULT_DISTANCE_UNIT_SYSTEM
+                ),
+            ): _select_selector(UNIT_SYSTEM_OPTIONS, CONF_DISTANCE_UNIT_SYSTEM),
             _required_with_optional_default(
                 CONF_ODOMETER_ENTITY, defaults.get(CONF_ODOMETER_ENTITY)
             ): selector.EntitySelector(
@@ -90,6 +124,10 @@ def _schema(defaults: ConfigType | None = None) -> vol.Schema:
                 CONF_EXCESS_COST,
                 default=defaults.get(CONF_EXCESS_COST, DEFAULT_EXCESS_COST),
             ): _number_selector(0, 0.01),
+            vol.Required(
+                CONF_CURRENCY,
+                default=defaults.get(CONF_CURRENCY, DEFAULT_CURRENCY),
+            ): _select_selector(CURRENCY_OPTIONS, CONF_CURRENCY),
         }
     )
 
@@ -110,6 +148,12 @@ def _validate_user_input(user_input: dict[str, Any]) -> dict[str, str]:
     else:
         if lease_end <= lease_start:
             errors[CONF_LEASE_END] = "lease_end_before_start"
+
+    if user_input.get(CONF_DISTANCE_UNIT_SYSTEM) not in VALID_UNIT_SYSTEMS:
+        errors[CONF_DISTANCE_UNIT_SYSTEM] = "invalid_unit_system"
+
+    if user_input.get(CONF_CURRENCY) not in VALID_CURRENCIES:
+        errors[CONF_CURRENCY] = "invalid_currency"
 
     for key in (CONF_START_ODOMETER, CONF_INCLUDED_KM, CONF_EXCESS_COST):
         try:
@@ -172,6 +216,8 @@ class LeasingMileageOptionsFlow(config_entries.OptionsFlow):
     ) -> config_entries.ConfigFlowResult:
         """Manage options."""
         current_values = {**self.config_entry.data, **self.config_entry.options}
+        current_values.setdefault(CONF_DISTANCE_UNIT_SYSTEM, DEFAULT_DISTANCE_UNIT_SYSTEM)
+        current_values.setdefault(CONF_CURRENCY, DEFAULT_CURRENCY)
         errors: dict[str, str] = {}
 
         if user_input is not None:

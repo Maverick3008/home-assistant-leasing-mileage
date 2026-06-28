@@ -1,62 +1,55 @@
 # Leasing Mileage for Home Assistant
 
-[Deutsch](#deutsch) | [English](#english)
+[Deutsch](README.de.md) · [English](README.en.md)
 
 ---
 
 ## Deutsch
 
-**Leasing Mileage** ist eine Home-Assistant Custom Integration, die Leasing-Kilometer für ein oder mehrere Fahrzeuge berechnet und die zugehörigen Sensoren pro Fahrzeug gruppiert.
+**Leasing Mileage** ist eine Home-Assistant Custom Integration, die Leasing-Strecken für ein oder mehrere Fahrzeuge berechnet und die zugehörigen Sensoren pro Fahrzeug gruppiert.
 
-Die Integration wird vollständig über die Home-Assistant Oberfläche eingerichtet. Du gibst pro Fahrzeug die Fahrzeugbezeichnung, den Leasingzeitraum, die Kilometerstand-Entität, die vereinbarte Leasinglaufleistung und die Kosten pro Mehrkilometer an.
+Die Integration wird vollständig über die Home-Assistant Oberfläche eingerichtet. Pro Fahrzeug kannst du auswählen:
 
-### Funktionen
+- Bezeichnung Leasing-Fahrzeug
+- Leasing Start und Leasing Ende
+- Einheitensystem: **Metrisch (km)** oder **Imperial (Meilen)**
+- Aktueller Kilometerstand/Meilenstand als `sensor` oder `input_number`
+- Tachostand zu Leasingstart
+- Inklusive Leasing-Strecke
+- Preis pro Mehr-Strecke bei Überschreitung
+- Währung: `€`, `$`, `£` oder `CHF`
 
-Pro Leasingfahrzeug wird ein eigenes Gerät in Home Assistant erstellt. Zu diesem Gerät gehören mehrere Sensoren:
+### Sensoren
 
 | Sensor | Beschreibung |
 |---|---|
-| Hochrechnung Leasingende | Prognostizierter Kilometerstand am Leasingende auf Basis der bisher gefahrenen Kilometer pro Tag. |
-| Kilometer pro Tag | Durchschnittlich gefahrene Kilometer pro Tag seit Leasingstart. |
-| Prognose Mehrkilometer | Erwartete Mehrkilometer gegenüber der vereinbarten Leasinglaufleistung. |
-| Leasing Nachzahlung | Geschätzte Nachzahlung anhand der Mehrkilometer und der Kosten pro Mehrkilometer. |
-| Restkilometer Leasing | Verbleibende Kilometer bis zur vereinbarten Leasinglaufleistung. |
-| Restkilometer pro Tag | Kilometer, die bis Leasingende pro Tag noch gefahren werden können. |
-| Resttage Leasing | Anzahl der verbleibenden Tage bis Leasingende. |
+| Tachostand zum Leasingende | Prognostizierter Tachostand am Leasingende. |
+| Strecke pro Tag | Durchschnittlich gefahrene Strecke pro Tag. |
+| Prognose Mehrstrecke | Erwartete Mehrstrecke gegenüber der vereinbarten Leasing-Strecke. |
+| Leasing Nachzahlung | Geschätzte Nachzahlung in der ausgewählten Währung. |
+| Reststrecke Leasing | Verbleibende Strecke bis zur vereinbarten Leasing-Strecke. |
+| Reststrecke pro Tag | Verbleibende Strecke pro Tag bis Leasingende. |
+| Resttage Leasing | Verbleibende Tage bis Leasingende. |
 
-### Beispielkonfiguration
+### Beispiel km
 
-Für dein Cupra-Beispiel wären die Werte im Einrichtungsdialog:
+```text
+Bezeichnung Leasing-Fahrzeug: Cupra
+Leasing Start: 2024-11-01
+Leasing Ende: 2027-10-30
+Einheitensystem: Metrisch (km)
+Aktueller Kilometerstand: sensor.garage_homeassistant_kilometerstand
+Tachostand zu Leasingstart: 0
+Inklusive Leasing-Strecke: 32500
+Preis pro Mehr-Strecke bei Überschreitung: 0.10
+Währung: Euro (€)
+```
 
-| Feld | Beispiel |
-|---|---:|
-| Bezeichnung Leasing-Fahrzeug | `Cupra` |
-| Leasing Start | `2024-11-01` |
-| Leasing Ende | `2027-10-30` |
-| Aktueller Kilometerstand | `sensor.garage_homeassistant_kilometerstand` |
-| Kilometerstand zu Leasingstart | `0` |
-| Inklusive Leasing-Kilometer | `32500` |
-| Kosten je Mehr-km | `0.10` |
+Wichtig: Die Integration rechnet nicht automatisch zwischen km und mi um. Die eingegebenen Werte müssen zur gewählten Einheit passen.
 
-Du kannst als Kilometerstand-Entität entweder einen normalen `sensor` oder einen `input_number` auswählen. Das ist praktisch, wenn du den Kilometerstand manuell pflegen möchtest.
+### Installation
 
-Wenn deine Kilometerstand-Entität den kompletten Tachostand des Autos liefert und das Auto bei Leasingstart nicht bei 0 km war, trage bei **Kilometerstand zu Leasingstart** den damaligen Tachostand ein. Die Berechnung nutzt dann nur die gefahrenen Kilometer innerhalb des Leasingzeitraums.
-
-### Installation über HACS als Custom Repository
-
-1. Repository in GitHub erstellen, zum Beispiel `home-assistant-leasing-mileage`.
-2. Alle Dateien aus diesem Projekt in das Repository hochladen.
-3. In Home Assistant HACS öffnen.
-4. Drei Punkte oben rechts → **Custom repositories**.
-5. Repository-URL einfügen.
-6. Kategorie **Integration** auswählen.
-7. Integration installieren.
-8. Home Assistant neu starten.
-9. **Einstellungen → Geräte & Dienste → Integration hinzufügen → Leasing Mileage** öffnen.
-
-### Manuelle Installation
-
-Kopiere diesen Ordner:
+Kopiere den Ordner:
 
 ```text
 custom_components/leasing_mileage
@@ -68,88 +61,54 @@ nach:
 /config/custom_components/leasing_mileage
 ```
 
-Danach Home Assistant neu starten und die Integration über die Home-Assistant Oberfläche hinzufügen.
-
-### Mehrere Fahrzeuge
-
-Du kannst die Integration mehrfach hinzufügen. Jedes Fahrzeug bekommt einen eigenen Config Entry und ein eigenes Gerät in Home Assistant.
-
-### Berechnungslogik
-
-Die Integration berechnet intern:
-
-```text
-gefahrene_km = aktueller_kilometerstand - kilometerstand_zu_leasingstart
-tage_bisher = heute - leasing_start
-tage_gesamt = leasing_ende - leasing_start
-km_pro_tag = gefahrene_km / tage_bisher
-hochrechnung_gefahrene_km = km_pro_tag * tage_gesamt
-hochrechnung_kilometerstand = kilometerstand_zu_leasingstart + hochrechnung_gefahrene_km
-mehrkilometer = max(hochrechnung_gefahrene_km - inklusive_leasing_km, 0)
-nachzahlung = mehrkilometer * kosten_je_mehr_km
-```
-
-Die Sensoren aktualisieren sich, wenn sich die Kilometerstand-Entität ändert, und zusätzlich einmal täglich kurz nach Mitternacht.
-
-### Repository-Beschreibung für GitHub
-
-```text
-Home Assistant custom integration to track lease mileage, projected mileage at lease end, excess kilometers and estimated excess mileage fees per vehicle.
-```
+Danach Home Assistant neu starten und die Integration über **Einstellungen → Geräte & Dienste → Integration hinzufügen → Leasing Mileage** hinzufügen.
 
 ---
 
 ## English
 
-**Leasing Mileage** is a Home Assistant custom integration that calculates lease mileage for one or more vehicles and groups all related sensors per vehicle.
+**Leasing Mileage** is a Home Assistant custom integration that calculates lease distance metrics for one or more vehicles and groups all generated sensors per vehicle.
 
-The integration is fully configured through the Home Assistant UI. For each vehicle, you enter the vehicle name, lease period, odometer entity, included lease mileage and cost per excess kilometer.
+The integration is configured entirely from the Home Assistant UI. For each vehicle, you can choose:
 
-### Features
+- Lease vehicle name
+- Lease start and lease end
+- Unit system: **Metric (km)** or **Imperial (miles)**
+- Current odometer entity as `sensor` or `input_number`
+- Odometer at lease start
+- Included lease distance
+- Cost per excess distance
+- Currency: `€`, `$`, `£` or `CHF`
 
-Each configured lease vehicle creates its own Home Assistant device. The device contains several sensors:
+### Sensors
 
 | Sensor | Description |
 |---|---|
-| Projected mileage at lease end | Projected odometer reading at the end of the lease based on the average mileage per day so far. |
-| Mileage per day | Average kilometers driven per day since the lease start date. |
-| Projected excess mileage | Estimated excess kilometers compared with the included lease mileage. |
-| Estimated excess mileage fee | Estimated fee based on projected excess kilometers and cost per excess kilometer. |
-| Remaining lease mileage | Remaining kilometers until the included lease mileage is reached. |
-| Remaining mileage per day | Kilometers that can still be driven per day until the lease end date. |
-| Lease days remaining | Number of days remaining until the lease end date. |
+| Projected odometer at lease end | Projected odometer value at lease end. |
+| Distance per day | Average distance driven per day. |
+| Projected excess distance | Expected excess distance compared with the included lease distance. |
+| Estimated excess fee | Estimated fee in the selected currency. |
+| Remaining lease distance | Remaining distance within the lease budget. |
+| Remaining distance per day | Remaining distance per day until lease end. |
+| Remaining lease days | Remaining days until lease end. |
 
-### Example configuration
+### Example km
 
-For the Cupra example, the setup dialog would use these values:
+```text
+Lease vehicle name: Cupra
+Lease start: 2024-11-01
+Lease end: 2027-10-30
+Unit system: Metric (km)
+Current odometer entity: sensor.garage_homeassistant_kilometerstand
+Odometer at lease start: 0
+Included lease distance: 32500
+Cost per excess distance: 0.10
+Currency: Euro (€)
+```
 
-| Field | Example |
-|---|---:|
-| Lease vehicle name | `Cupra` |
-| Lease start | `2024-11-01` |
-| Lease end | `2027-10-30` |
-| Current odometer entity | `sensor.garage_homeassistant_kilometerstand` |
-| Odometer at lease start | `0` |
-| Included lease mileage | `32500` |
-| Cost per excess km | `0.10` |
+Important: The integration does not automatically convert between km and mi. The entered values must match the selected unit system.
 
-You can select either a regular `sensor` or an `input_number` as the odometer entity. This is useful if you want to maintain the odometer value manually.
-
-If your odometer entity returns the full vehicle odometer reading and the vehicle did not start at 0 km when the lease began, enter the odometer reading from the lease start date in **Odometer at lease start**. The integration will then only use kilometers driven during the lease period.
-
-### HACS custom repository installation
-
-1. Create a GitHub repository, for example `home-assistant-leasing-mileage`.
-2. Upload all files from this project to the repository.
-3. Open HACS in Home Assistant.
-4. Click the three-dot menu → **Custom repositories**.
-5. Add the repository URL.
-6. Select category **Integration**.
-7. Install the integration.
-8. Restart Home Assistant.
-9. Go to **Settings → Devices & services → Add integration → Leasing Mileage**.
-
-### Manual installation
+### Installation
 
 Copy this folder:
 
@@ -163,35 +122,4 @@ to:
 /config/custom_components/leasing_mileage
 ```
 
-Then restart Home Assistant and add the integration through the Home Assistant UI.
-
-### Multiple vehicles
-
-You can add the integration multiple times. Each vehicle gets its own config entry and its own Home Assistant device.
-
-### Calculation logic
-
-Internally, the integration calculates:
-
-```text
-driven_km = current_odometer - start_odometer
-days_so_far = today - lease_start
-total_days = lease_end - lease_start
-km_per_day = driven_km / days_so_far
-projected_driven_km = km_per_day * total_days
-projected_odometer = start_odometer + projected_driven_km
-excess_km = max(projected_driven_km - included_lease_km, 0)
-excess_fee = excess_km * cost_per_excess_km
-```
-
-The sensors update whenever the odometer entity changes and once per day shortly after midnight.
-
-### GitHub repository description
-
-```text
-Home Assistant custom integration to track lease mileage, projected mileage at lease end, excess kilometers and estimated excess mileage fees per vehicle.
-```
-
-## Units
-
-All distance and mileage sensors use fixed `km`. The integration intentionally does not assign Home Assistant's `distance` device class to kilometer sensors so Home Assistant does not automatically convert the display to `mi`.
+Then restart Home Assistant and add the integration from **Settings → Devices & services → Add integration → Leasing Mileage**.

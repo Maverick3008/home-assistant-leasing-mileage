@@ -4,24 +4,28 @@
     "step": {
       "user": {
         "title": "Add lease vehicle",
-        "description": "Set up a lease vehicle. The integration creates several sensors for mileage projection and estimated excess mileage fees.",
+        "description": "Set up a lease vehicle. The integration creates several sensors for distance projection and estimated excess distance fees.",
         "data": {
           "vehicle_name": "Lease vehicle name",
           "lease_start": "Lease start",
           "lease_end": "Lease end",
+          "distance_unit_system": "Unit system",
           "odometer_entity": "Current odometer entity",
           "start_odometer": "Odometer at lease start",
-          "included_km": "Included lease mileage",
-          "excess_cost": "Cost per excess km"
+          "included_km": "Included lease distance",
+          "excess_cost": "Cost per excess distance",
+          "currency": "Currency"
         },
         "data_description": {
           "vehicle_name": "For example: Cupra",
           "lease_start": "Start date of the lease contract.",
           "lease_end": "End date of the lease contract.",
-          "odometer_entity": "Sensor or input_number that provides the current vehicle odometer in km.",
-          "start_odometer": "Odometer value at lease start. Usually 0 for a new car.",
-          "included_km": "Total included mileage for the lease period, for example 32500.",
-          "excess_cost": "Price per excess kilometer in euros, for example 0.10."
+          "distance_unit_system": "Choose whether the odometer, included distance and distance sensors should use kilometers or miles.",
+          "odometer_entity": "Sensor or input_number that provides the current vehicle odometer in the selected distance unit.",
+          "start_odometer": "Odometer value at lease start in the selected distance unit. Usually 0 for a new car.",
+          "included_km": "Total included distance for the lease period, for example 32500 km or 20000 mi.",
+          "excess_cost": "Price per excess distance unit, for example 0.10 per km or per mile.",
+          "currency": "Currency used for the excess distance fee sensor."
         }
       }
     },
@@ -30,7 +34,9 @@
       "invalid_date": "Please enter valid dates.",
       "lease_end_before_start": "The lease end must be after the lease start.",
       "invalid_number": "Please enter a valid number.",
-      "included_km_required": "The included lease mileage must be greater than 0."
+      "included_km_required": "The included lease distance must be greater than 0.",
+      "invalid_unit_system": "Please select a valid unit system.",
+      "invalid_currency": "Please select a valid currency."
     },
     "abort": {
       "already_configured": "This lease vehicle is already configured."
@@ -45,19 +51,23 @@
           "vehicle_name": "Lease vehicle name",
           "lease_start": "Lease start",
           "lease_end": "Lease end",
+          "distance_unit_system": "Unit system",
           "odometer_entity": "Current odometer entity",
           "start_odometer": "Odometer at lease start",
-          "included_km": "Included lease mileage",
-          "excess_cost": "Cost per excess km"
+          "included_km": "Included lease distance",
+          "excess_cost": "Cost per excess distance",
+          "currency": "Currency"
         },
         "data_description": {
           "vehicle_name": "For example: Cupra",
           "lease_start": "Start date of the lease contract.",
           "lease_end": "End date of the lease contract.",
-          "odometer_entity": "Sensor or input_number that provides the current vehicle odometer in km.",
-          "start_odometer": "Odometer value at lease start. Usually 0 for a new car.",
-          "included_km": "Total included mileage for the lease period, for example 32500.",
-          "excess_cost": "Price per excess kilometer in euros, for example 0.10."
+          "distance_unit_system": "Choose whether the odometer, included distance and distance sensors should use kilometers or miles.",
+          "odometer_entity": "Sensor or input_number that provides the current vehicle odometer in the selected distance unit.",
+          "start_odometer": "Odometer value at lease start in the selected distance unit. Usually 0 for a new car.",
+          "included_km": "Total included distance for the lease period, for example 32500 km or 20000 mi.",
+          "excess_cost": "Price per excess distance unit, for example 0.10 per km or per mile.",
+          "currency": "Currency used for the excess distance fee sensor."
         }
       }
     },
@@ -66,7 +76,25 @@
       "invalid_date": "Please enter valid dates.",
       "lease_end_before_start": "The lease end must be after the lease start.",
       "invalid_number": "Please enter a valid number.",
-      "included_km_required": "The included lease mileage must be greater than 0."
+      "included_km_required": "The included lease distance must be greater than 0.",
+      "invalid_unit_system": "Please select a valid unit system.",
+      "invalid_currency": "Please select a valid currency."
+    }
+  },
+  "selector": {
+    "distance_unit_system": {
+      "options": {
+        "metric": "Metric (km)",
+        "imperial": "Imperial (miles)"
+      }
+    },
+    "currency": {
+      "options": {
+        "EUR": "Euro (€)",
+        "USD": "US Dollar ($)",
+        "GBP": "British Pound (£)",
+        "CHF": "Swiss Franc (CHF)"
+      }
     }
   }
 }

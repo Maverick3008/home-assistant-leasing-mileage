@@ -2,24 +2,12 @@
 
 ## Deutsch
 
-Berechnet Leasing-Kilometer, Kilometer pro Tag, erwartete Mehrkilometer und eine geschätzte Leasing-Nachzahlung pro Fahrzeug.
+Home-Assistant Custom Integration für Leasingfahrzeuge. Sie berechnet pro Fahrzeug die bisher gefahrene Strecke pro Tag, den prognostizierten Tachostand zum Leasingende, erwartete Mehrstrecke, geschätzte Nachzahlung, Reststrecke und Resttage.
 
-Die Integration ist vollständig über die Home-Assistant Oberfläche konfigurierbar und kann für mehrere Fahrzeuge mehrfach hinzugefügt werden. Jedes Fahrzeug erhält ein eigenes Gerät mit gruppierten Sensoren.
+Die Einrichtung erfolgt über die Home-Assistant Oberfläche. Unterstützt werden `sensor` und `input_number` als Tachostand-Quelle. Zusätzlich können Einheitensystem (**km** oder **mi**) und Währung (**€**, **$**, **£**, **CHF**) ausgewählt werden.
 
 ## English
 
-Calculates lease mileage, mileage per day, projected excess mileage and an estimated excess mileage fee per vehicle.
+Home Assistant custom integration for lease vehicles. It calculates distance driven per day, projected odometer at lease end, expected excess distance, estimated excess fee, remaining distance and remaining lease days per vehicle.
 
-The integration is fully configurable through the Home Assistant UI and can be added multiple times for multiple vehicles. Each vehicle gets its own device with grouped sensors.
-
-
-Deutsch: Als Kilometerstand-Entität kann ein normaler Sensor oder ein `input_number` verwendet werden.
-
-English: The odometer entity can be a regular sensor or an `input_number`.
-
-
-## Einheiten / Units
-
-DE: Alle Streckenwerte werden fest in `km` ausgegeben und nicht automatisch in `mi` umgerechnet.
-
-EN: All distance values are exposed as fixed `km` and are not automatically converted to `mi`.
+Setup is done from the Home Assistant UI. The odometer source can be a `sensor` or an `input_number`. Unit system (**km** or **mi**) and currency (**€**, **$**, **£**, **CHF**) can be selected.

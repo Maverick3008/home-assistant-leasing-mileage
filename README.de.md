@@ -1,8 +1,8 @@
 # Leasing Mileage für Home Assistant
 
-**Leasing Mileage** ist eine Home-Assistant Custom Integration, die Leasing-Kilometer für ein oder mehrere Fahrzeuge berechnet und die zugehörigen Sensoren pro Fahrzeug gruppiert.
+**Leasing Mileage** ist eine Home-Assistant Custom Integration, die Leasing-Strecken für ein oder mehrere Fahrzeuge berechnet und die zugehörigen Sensoren pro Fahrzeug gruppiert.
 
-Die Integration wird vollständig über die Home-Assistant Oberfläche eingerichtet. Du gibst pro Fahrzeug die Fahrzeugbezeichnung, den Leasingzeitraum, die Kilometerstand-Entität, die vereinbarte Leasinglaufleistung und die Kosten pro Mehrkilometer an.
+Die Integration wird vollständig über die Home-Assistant Oberfläche eingerichtet. Du gibst pro Fahrzeug die Fahrzeugbezeichnung, den Leasingzeitraum, die Kilometerstand-/Meilenstand-Entität, das Einheitensystem, die vereinbarte Leasing-Strecke, den Preis pro Mehr-Strecke und die Währung an.
 
 ## Funktionen
 
@@ -10,33 +10,58 @@ Pro Leasingfahrzeug wird ein eigenes Gerät in Home Assistant erstellt. Zu diese
 
 | Sensor | Beschreibung |
 |---|---|
-| Hochrechnung Leasingende | Prognostizierter Kilometerstand am Leasingende auf Basis der bisher gefahrenen Kilometer pro Tag. |
-| Kilometer pro Tag | Durchschnittlich gefahrene Kilometer pro Tag seit Leasingstart. |
-| Prognose Mehrkilometer | Erwartete Mehrkilometer gegenüber der vereinbarten Leasinglaufleistung. |
-| Leasing Nachzahlung | Geschätzte Nachzahlung anhand der Mehrkilometer und der Kosten pro Mehrkilometer. |
-| Restkilometer Leasing | Verbleibende Kilometer bis zur vereinbarten Leasinglaufleistung. |
-| Restkilometer pro Tag | Kilometer, die bis Leasingende pro Tag noch gefahren werden können. |
+| Hochrechnung Leasingende | Prognostizierter Tachostand am Leasingende auf Basis der bisher gefahrenen Strecke pro Tag. |
+| Strecke pro Tag | Durchschnittlich gefahrene Strecke pro Tag seit Leasingstart. |
+| Prognose Mehrstrecke | Erwartete Mehrstrecke gegenüber der vereinbarten Leasing-Strecke. |
+| Leasing Nachzahlung | Geschätzte Nachzahlung anhand der Mehrstrecke und des Preises pro Mehr-Strecke. |
+| Reststrecke Leasing | Verbleibende Strecke bis zur vereinbarten Leasing-Strecke. |
+| Reststrecke pro Tag | Strecke, die bis Leasingende pro Tag noch gefahren werden kann. |
 | Resttage Leasing | Anzahl der verbleibenden Tage bis Leasingende. |
 
-## Beispielkonfiguration
+## Beispielkonfiguration in Kilometern
 
 | Feld | Beispiel |
 |---|---:|
 | Bezeichnung Leasing-Fahrzeug | `Cupra` |
 | Leasing Start | `2024-11-01` |
 | Leasing Ende | `2027-10-30` |
+| Einheitensystem | `Metrisch (km)` |
 | Aktueller Kilometerstand | `sensor.garage_homeassistant_kilometerstand` |
-| Kilometerstand zu Leasingstart | `0` |
-| Inklusive Leasing-Kilometer | `32500` |
-| Kosten je Mehr-km | `0.10` |
+| Tachostand zu Leasingstart | `0` |
+| Inklusive Leasing-Strecke | `32500` |
+| Preis pro Mehr-Strecke bei Überschreitung | `0.10` |
+| Währung | `Euro (€)` |
 
-Du kannst als Kilometerstand-Entität entweder einen normalen `sensor` oder einen `input_number` auswählen. Das ist praktisch, wenn du den Kilometerstand manuell pflegen möchtest.
+## Beispielkonfiguration in Meilen
 
-Wenn deine Kilometerstand-Entität den kompletten Tachostand des Autos liefert und das Auto bei Leasingstart nicht bei 0 km war, trage bei **Kilometerstand zu Leasingstart** den damaligen Tachostand ein.
+| Feld | Beispiel |
+|---|---:|
+| Einheitensystem | `Imperial (Meilen)` |
+| Aktueller Meilenstand | `sensor.car_odometer_miles` |
+| Tachostand zu Leasingstart | `0` |
+| Inklusive Leasing-Strecke | `20000` |
+| Preis pro Mehr-Strecke bei Überschreitung | `0.15` |
+| Währung | `US Dollar ($)` |
 
-## Einheiten
+Wichtig: Die Integration rechnet nicht automatisch zwischen km und mi um. Die Werte für Tachostand, Start-Tachostand und inklusive Leasing-Strecke müssen zur ausgewählten Einheit passen.
 
-Alle Strecken- und Kilometer-Sensoren verwenden fest `km`. Die Sensoren setzen bewusst keinen Home-Assistant-`distance`-Device-Class für Kilometerwerte, damit Home Assistant die Anzeige nicht automatisch in `mi` umrechnet.
+Du kannst als Tachostand-Entität entweder einen normalen `sensor` oder einen `input_number` auswählen. Das ist praktisch, wenn du den Wert manuell pflegen möchtest.
+
+Wenn deine Tachostand-Entität den kompletten Tachostand des Autos liefert und das Auto bei Leasingstart nicht bei 0 km bzw. 0 mi war, trage bei **Tachostand zu Leasingstart** den damaligen Tachostand ein.
+
+## Einheiten und Währung
+
+Beim Einrichten oder Bearbeiten eines Fahrzeugs kannst du auswählen:
+
+- **Metrisch (km)**: alle Strecken-Sensoren zeigen `km` bzw. `km/Tag`.
+- **Imperial (Meilen)**: alle Strecken-Sensoren zeigen `mi` bzw. `mi/Tag`.
+
+Für den Nachzahlungs-Sensor kannst du auswählen:
+
+- Euro (`€`)
+- US Dollar (`$`)
+- British Pound (`£`)
+- Swiss Franc (`CHF`)
 
 ## Installation über HACS als Custom Repository
 
@@ -73,20 +98,20 @@ Du kannst die Integration mehrfach hinzufügen. Jedes Fahrzeug bekommt einen eig
 ## Berechnungslogik
 
 ```text
-gefahrene_km = aktueller_kilometerstand - kilometerstand_zu_leasingstart
+gefahrene_strecke = aktueller_tachostand - tachostand_zu_leasingstart
 tage_bisher = heute - leasing_start
 tage_gesamt = leasing_ende - leasing_start
-km_pro_tag = gefahrene_km / tage_bisher
-hochrechnung_gefahrene_km = km_pro_tag * tage_gesamt
-hochrechnung_kilometerstand = kilometerstand_zu_leasingstart + hochrechnung_gefahrene_km
-mehrkilometer = max(hochrechnung_gefahrene_km - inklusive_leasing_km, 0)
-nachzahlung = mehrkilometer * kosten_je_mehr_km
+strecke_pro_tag = gefahrene_strecke / tage_bisher
+hochrechnung_gefahrene_strecke = strecke_pro_tag * tage_gesamt
+hochrechnung_tachostand = tachostand_zu_leasingstart + hochrechnung_gefahrene_strecke
+mehrstrecke = max(hochrechnung_gefahrene_strecke - inklusive_leasing_strecke, 0)
+nachzahlung = mehrstrecke * preis_pro_mehr_strecke
 ```
 
-Die Sensoren aktualisieren sich, wenn sich die Kilometerstand-Entität ändert, und zusätzlich einmal täglich kurz nach Mitternacht.
+Die Sensoren aktualisieren sich, wenn sich die Tachostand-Entität ändert, und zusätzlich einmal täglich kurz nach Mitternacht.
 
 ## GitHub Repository-Beschreibung
 
 ```text
-Home Assistant custom integration to track lease mileage, projected mileage at lease end, excess kilometers and estimated excess mileage fees per vehicle.
+Home Assistant custom integration to track lease mileage, projected distance at lease end, excess distance and estimated excess distance fees per vehicle.
 ```
