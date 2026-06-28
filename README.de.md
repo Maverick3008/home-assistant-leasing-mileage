@@ -25,7 +25,7 @@ Pro Leasingfahrzeug wird ein eigenes Gerät in Home Assistant erstellt. Zu diese
 | Bezeichnung Leasing-Fahrzeug | `Cupra` |
 | Leasing Start | `2024-11-01` |
 | Leasing Ende | `2027-10-30` |
-| Aktueller Kilometerstand | `sensor.garage_homeassistant_kilometerstand` |
+| Aktueller Kilometerstand | `sensor.cupra_leon_kilometerstand` |
 | Kilometerstand zu Leasingstart | `0` |
 | Inklusive Leasing-Kilometer | `32500` |
 | Kosten je Mehr-km | `0.10` |
