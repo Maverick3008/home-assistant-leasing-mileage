@@ -25,7 +25,7 @@ Each configured lease vehicle creates its own Home Assistant device. The device 
 | Lease vehicle name | `Cupra` |
 | Lease start | `2024-11-01` |
 | Lease end | `2027-10-30` |
-| Current odometer sensor | `sensor.garage_homeassistant_kilometerstand` |
+| Current odometer sensor | `sensor.cupra_leon_kilometerstand` |
 | Odometer at lease start | `0` |
 | Included lease mileage | `32500` |
 | Cost per excess km | `0.10` |
