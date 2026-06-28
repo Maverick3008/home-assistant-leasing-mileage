@@ -16,3 +16,10 @@ The integration is fully configurable through the Home Assistant UI and can be a
 Deutsch: Als Kilometerstand-Entität kann ein normaler Sensor oder ein `input_number` verwendet werden.
 
 English: The odometer entity can be a regular sensor or an `input_number`.
+
+
+## Einheiten / Units
+
+DE: Alle Streckenwerte werden fest in `km` ausgegeben und nicht automatisch in `mi` umgerechnet.
+
+EN: All distance values are exposed as fixed `km` and are not automatically converted to `mi`.

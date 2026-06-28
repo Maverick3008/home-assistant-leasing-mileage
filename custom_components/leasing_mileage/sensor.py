@@ -15,7 +15,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CURRENCY_EURO, STATE_UNAVAILABLE, STATE_UNKNOWN, UnitOfLength, UnitOfTime
+from homeassistant.const import CURRENCY_EURO, STATE_UNAVAILABLE, STATE_UNKNOWN, UnitOfTime
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -115,8 +115,7 @@ SENSOR_DESCRIPTIONS: tuple[LeasingSensorEntityDescription, ...] = (
     LeasingSensorEntityDescription(
         key="projected_odometer_at_lease_end",
         name="Kilometerstand zum Leasingende",
-        native_unit_of_measurement=UnitOfLength.KILOMETERS,
-        device_class=SensorDeviceClass.DISTANCE,
+        native_unit_of_measurement="km",
         state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:car-clock",
         value_fn=lambda metrics: metrics.projected_odometer_at_end,
@@ -134,8 +133,7 @@ SENSOR_DESCRIPTIONS: tuple[LeasingSensorEntityDescription, ...] = (
     LeasingSensorEntityDescription(
         key="projected_excess_km",
         name="Prognose Mehrkilometer",
-        native_unit_of_measurement=UnitOfLength.KILOMETERS,
-        device_class=SensorDeviceClass.DISTANCE,
+        native_unit_of_measurement="km",
         state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:map-marker-distance",
         value_fn=lambda metrics: metrics.projected_excess_km,
@@ -154,8 +152,7 @@ SENSOR_DESCRIPTIONS: tuple[LeasingSensorEntityDescription, ...] = (
     LeasingSensorEntityDescription(
         key="remaining_lease_km",
         name="Restkilometer Leasing",
-        native_unit_of_measurement=UnitOfLength.KILOMETERS,
-        device_class=SensorDeviceClass.DISTANCE,
+        native_unit_of_measurement="km",
         state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:counter",
         value_fn=lambda metrics: metrics.remaining_lease_km,

@@ -34,6 +34,10 @@ Du kannst als Kilometerstand-Entität entweder einen normalen `sensor` oder eine
 
 Wenn deine Kilometerstand-Entität den kompletten Tachostand des Autos liefert und das Auto bei Leasingstart nicht bei 0 km war, trage bei **Kilometerstand zu Leasingstart** den damaligen Tachostand ein.
 
+## Einheiten
+
+Alle Strecken- und Kilometer-Sensoren verwenden fest `km`. Die Sensoren setzen bewusst keinen Home-Assistant-`distance`-Device-Class für Kilometerwerte, damit Home Assistant die Anzeige nicht automatisch in `mi` umrechnet.
+
 ## Installation über HACS als Custom Repository
 
 1. Repository in GitHub erstellen, zum Beispiel `home-assistant-leasing-mileage`.

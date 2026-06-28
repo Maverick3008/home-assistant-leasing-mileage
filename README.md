@@ -191,3 +191,7 @@ The sensors update whenever the odometer entity changes and once per day shortly
 ```text
 Home Assistant custom integration to track lease mileage, projected mileage at lease end, excess kilometers and estimated excess mileage fees per vehicle.
 ```
+
+## Units
+
+All distance and mileage sensors use fixed `km`. The integration intentionally does not assign Home Assistant's `distance` device class to kilometer sensors so Home Assistant does not automatically convert the display to `mi`.
