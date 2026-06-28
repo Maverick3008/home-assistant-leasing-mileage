@@ -1,0 +1,14 @@
+{
+  "domain": "leasing_mileage",
+  "name": "Leasing Mileage",
+  "after_dependencies": [],
+  "codeowners": ["@Maverick3008"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/Maverick3008/home-assistant-leasing-mileage",
+  "integration_type": "helper",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/Maverick3008/home-assistant-leasing-mileage/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}

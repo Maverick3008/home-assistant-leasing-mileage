@@ -1,0 +1,72 @@
+{
+  "title": "Leasing Mileage",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Leasing-Fahrzeug hinzufügen",
+        "description": "Richte ein Leasing-Fahrzeug ein. Die Integration erstellt mehrere Sensoren für Kilometer-Prognose und mögliche Nachzahlung.",
+        "data": {
+          "vehicle_name": "Bezeichnung Leasing Fahrzeug",
+          "lease_start": "Leasing Start",
+          "lease_end": "Leasing Ende",
+          "odometer_entity": "Aktueller Kilometerstand",
+          "start_odometer": "Kilometerstand zu Leasingstart",
+          "included_km": "Inklusive Leasing-Kilometer",
+          "excess_cost": "Kosten je Mehr-km"
+        },
+        "data_description": {
+          "vehicle_name": "Zum Beispiel: Cupra",
+          "lease_start": "Startdatum des Leasingvertrags.",
+          "lease_end": "Enddatum des Leasingvertrags.",
+          "odometer_entity": "Sensor, der den aktuellen Kilometerstand des Fahrzeugs in km liefert.",
+          "start_odometer": "Tachostand am Leasingstart. Bei Neuwagen meistens 0.",
+          "included_km": "Gesamte vereinbarte Kilometer für den Leasingzeitraum, z. B. 32500.",
+          "excess_cost": "Preis pro Mehrkilometer in Euro, z. B. 0.10."
+        }
+      }
+    },
+    "error": {
+      "vehicle_name_required": "Bitte gib eine Fahrzeugbezeichnung ein.",
+      "invalid_date": "Bitte gib gültige Datumswerte ein.",
+      "lease_end_before_start": "Das Leasingende muss nach dem Leasingstart liegen.",
+      "invalid_number": "Bitte gib eine gültige Zahl ein.",
+      "included_km_required": "Die inklusive Leasinglaufleistung muss größer als 0 sein."
+    },
+    "abort": {
+      "already_configured": "Dieses Leasing-Fahrzeug ist bereits konfiguriert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Leasing-Fahrzeug bearbeiten",
+        "description": "Passe die Daten für dieses Leasing-Fahrzeug an.",
+        "data": {
+          "vehicle_name": "Bezeichnung Leasing Fahrzeug",
+          "lease_start": "Leasing Start",
+          "lease_end": "Leasing Ende",
+          "odometer_entity": "Aktueller Kilometerstand",
+          "start_odometer": "Kilometerstand zu Leasingstart",
+          "included_km": "Inklusive Leasing-Kilometer",
+          "excess_cost": "Kosten je Mehr-km"
+        },
+        "data_description": {
+          "vehicle_name": "Zum Beispiel: Cupra",
+          "lease_start": "Startdatum des Leasingvertrags.",
+          "lease_end": "Enddatum des Leasingvertrags.",
+          "odometer_entity": "Sensor, der den aktuellen Kilometerstand des Fahrzeugs in km liefert.",
+          "start_odometer": "Tachostand am Leasingstart. Bei Neuwagen meistens 0.",
+          "included_km": "Gesamte vereinbarte Kilometer für den Leasingzeitraum, z. B. 32500.",
+          "excess_cost": "Preis pro Mehrkilometer in Euro, z. B. 0.10."
+        }
+      }
+    },
+    "error": {
+      "vehicle_name_required": "Bitte gib eine Fahrzeugbezeichnung ein.",
+      "invalid_date": "Bitte gib gültige Datumswerte ein.",
+      "lease_end_before_start": "Das Leasingende muss nach dem Leasingstart liegen.",
+      "invalid_number": "Bitte gib eine gültige Zahl ein.",
+      "included_km_required": "Die inklusive Leasinglaufleistung muss größer als 0 sein."
+    }
+  }
+}
