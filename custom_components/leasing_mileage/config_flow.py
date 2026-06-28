@@ -76,7 +76,7 @@ def _schema(defaults: ConfigType | None = None) -> vol.Schema:
             _required_with_optional_default(
                 CONF_ODOMETER_ENTITY, defaults.get(CONF_ODOMETER_ENTITY)
             ): selector.EntitySelector(
-                selector.EntitySelectorConfig(domain="sensor")
+                selector.EntitySelectorConfig(domain="sensor", "input_number")
             ),
             vol.Required(
                 CONF_START_ODOMETER,
