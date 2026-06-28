@@ -18,7 +18,7 @@
           "vehicle_name": "Zum Beispiel: Cupra",
           "lease_start": "Startdatum des Leasingvertrags.",
           "lease_end": "Enddatum des Leasingvertrags.",
-          "odometer_entity": "Sensor, der den aktuellen Kilometerstand des Fahrzeugs in km liefert.",
+          "odometer_entity": "Sensor oder input_number, der/die den aktuellen Kilometerstand des Fahrzeugs in km liefert.",
           "start_odometer": "Tachostand am Leasingstart. Bei Neuwagen meistens 0.",
           "included_km": "Gesamte vereinbarte Kilometer für den Leasingzeitraum, z. B. 32500.",
           "excess_cost": "Preis pro Mehrkilometer in Euro, z. B. 0.10."
@@ -54,7 +54,7 @@
           "vehicle_name": "Zum Beispiel: Cupra",
           "lease_start": "Startdatum des Leasingvertrags.",
           "lease_end": "Enddatum des Leasingvertrags.",
-          "odometer_entity": "Sensor, der den aktuellen Kilometerstand des Fahrzeugs in km liefert.",
+          "odometer_entity": "Sensor oder input_number, der/die den aktuellen Kilometerstand des Fahrzeugs in km liefert.",
           "start_odometer": "Tachostand am Leasingstart. Bei Neuwagen meistens 0.",
           "included_km": "Gesamte vereinbarte Kilometer für den Leasingzeitraum, z. B. 32500.",
           "excess_cost": "Preis pro Mehrkilometer in Euro, z. B. 0.10."

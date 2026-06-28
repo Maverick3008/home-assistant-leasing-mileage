@@ -2,7 +2,7 @@
 
 **Leasing Mileage** ist eine Home-Assistant Custom Integration, die Leasing-Kilometer für ein oder mehrere Fahrzeuge berechnet und die zugehörigen Sensoren pro Fahrzeug gruppiert.
 
-Die Integration wird vollständig über die Home-Assistant Oberfläche eingerichtet. Du gibst pro Fahrzeug die Fahrzeugbezeichnung, den Leasingzeitraum, den Kilometerstand-Sensor, die vereinbarte Leasinglaufleistung und die Kosten pro Mehrkilometer an.
+Die Integration wird vollständig über die Home-Assistant Oberfläche eingerichtet. Du gibst pro Fahrzeug die Fahrzeugbezeichnung, den Leasingzeitraum, die Kilometerstand-Entität, die vereinbarte Leasinglaufleistung und die Kosten pro Mehrkilometer an.
 
 ## Funktionen
 
@@ -25,12 +25,14 @@ Pro Leasingfahrzeug wird ein eigenes Gerät in Home Assistant erstellt. Zu diese
 | Bezeichnung Leasing-Fahrzeug | `Cupra` |
 | Leasing Start | `2024-11-01` |
 | Leasing Ende | `2027-10-30` |
-| Aktueller Kilometerstand | `sensor.cupra_leon_kilometerstand` |
+| Aktueller Kilometerstand | `sensor.garage_homeassistant_kilometerstand` |
 | Kilometerstand zu Leasingstart | `0` |
 | Inklusive Leasing-Kilometer | `32500` |
 | Kosten je Mehr-km | `0.10` |
 
-Wenn dein Kilometerstand-Sensor den kompletten Tachostand des Autos liefert und das Auto bei Leasingstart nicht bei 0 km war, trage bei **Kilometerstand zu Leasingstart** den damaligen Tachostand ein.
+Du kannst als Kilometerstand-Entität entweder einen normalen `sensor` oder einen `input_number` auswählen. Das ist praktisch, wenn du den Kilometerstand manuell pflegen möchtest.
+
+Wenn deine Kilometerstand-Entität den kompletten Tachostand des Autos liefert und das Auto bei Leasingstart nicht bei 0 km war, trage bei **Kilometerstand zu Leasingstart** den damaligen Tachostand ein.
 
 ## Installation über HACS als Custom Repository
 
@@ -77,7 +79,7 @@ mehrkilometer = max(hochrechnung_gefahrene_km - inklusive_leasing_km, 0)
 nachzahlung = mehrkilometer * kosten_je_mehr_km
 ```
 
-Die Sensoren aktualisieren sich, wenn sich der Kilometerstand-Sensor ändert, und zusätzlich einmal täglich kurz nach Mitternacht.
+Die Sensoren aktualisieren sich, wenn sich die Kilometerstand-Entität ändert, und zusätzlich einmal täglich kurz nach Mitternacht.
 
 ## GitHub Repository-Beschreibung
 

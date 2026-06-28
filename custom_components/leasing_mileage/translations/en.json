@@ -9,7 +9,7 @@
           "vehicle_name": "Lease vehicle name",
           "lease_start": "Lease start",
           "lease_end": "Lease end",
-          "odometer_entity": "Current odometer sensor",
+          "odometer_entity": "Current odometer entity",
           "start_odometer": "Odometer at lease start",
           "included_km": "Included lease mileage",
           "excess_cost": "Cost per excess km"
@@ -18,7 +18,7 @@
           "vehicle_name": "For example: Cupra",
           "lease_start": "Start date of the lease contract.",
           "lease_end": "End date of the lease contract.",
-          "odometer_entity": "Sensor that provides the current vehicle odometer in km.",
+          "odometer_entity": "Sensor or input_number that provides the current vehicle odometer in km.",
           "start_odometer": "Odometer value at lease start. Usually 0 for a new car.",
           "included_km": "Total included mileage for the lease period, for example 32500.",
           "excess_cost": "Price per excess kilometer in euros, for example 0.10."
@@ -45,7 +45,7 @@
           "vehicle_name": "Lease vehicle name",
           "lease_start": "Lease start",
           "lease_end": "Lease end",
-          "odometer_entity": "Current odometer sensor",
+          "odometer_entity": "Current odometer entity",
           "start_odometer": "Odometer at lease start",
           "included_km": "Included lease mileage",
           "excess_cost": "Cost per excess km"
@@ -54,7 +54,7 @@
           "vehicle_name": "For example: Cupra",
           "lease_start": "Start date of the lease contract.",
           "lease_end": "End date of the lease contract.",
-          "odometer_entity": "Sensor that provides the current vehicle odometer in km.",
+          "odometer_entity": "Sensor or input_number that provides the current vehicle odometer in km.",
           "start_odometer": "Odometer value at lease start. Usually 0 for a new car.",
           "included_km": "Total included mileage for the lease period, for example 32500.",
           "excess_cost": "Price per excess kilometer in euros, for example 0.10."

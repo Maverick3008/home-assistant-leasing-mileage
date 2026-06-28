@@ -8,7 +8,7 @@
 
 **Leasing Mileage** ist eine Home-Assistant Custom Integration, die Leasing-Kilometer für ein oder mehrere Fahrzeuge berechnet und die zugehörigen Sensoren pro Fahrzeug gruppiert.
 
-Die Integration wird vollständig über die Home-Assistant Oberfläche eingerichtet. Du gibst pro Fahrzeug die Fahrzeugbezeichnung, den Leasingzeitraum, den Kilometerstand-Sensor, die vereinbarte Leasinglaufleistung und die Kosten pro Mehrkilometer an.
+Die Integration wird vollständig über die Home-Assistant Oberfläche eingerichtet. Du gibst pro Fahrzeug die Fahrzeugbezeichnung, den Leasingzeitraum, die Kilometerstand-Entität, die vereinbarte Leasinglaufleistung und die Kosten pro Mehrkilometer an.
 
 ### Funktionen
 
@@ -33,12 +33,14 @@ Für dein Cupra-Beispiel wären die Werte im Einrichtungsdialog:
 | Bezeichnung Leasing-Fahrzeug | `Cupra` |
 | Leasing Start | `2024-11-01` |
 | Leasing Ende | `2027-10-30` |
-| Aktueller Kilometerstand | `sensor.cupra_leon_kilometerstand` |
+| Aktueller Kilometerstand | `sensor.garage_homeassistant_kilometerstand` |
 | Kilometerstand zu Leasingstart | `0` |
 | Inklusive Leasing-Kilometer | `32500` |
 | Kosten je Mehr-km | `0.10` |
 
-Wenn dein Kilometerstand-Sensor den kompletten Tachostand des Autos liefert und das Auto bei Leasingstart nicht bei 0 km war, trage bei **Kilometerstand zu Leasingstart** den damaligen Tachostand ein. Die Berechnung nutzt dann nur die gefahrenen Kilometer innerhalb des Leasingzeitraums.
+Du kannst als Kilometerstand-Entität entweder einen normalen `sensor` oder einen `input_number` auswählen. Das ist praktisch, wenn du den Kilometerstand manuell pflegen möchtest.
+
+Wenn deine Kilometerstand-Entität den kompletten Tachostand des Autos liefert und das Auto bei Leasingstart nicht bei 0 km war, trage bei **Kilometerstand zu Leasingstart** den damaligen Tachostand ein. Die Berechnung nutzt dann nur die gefahrenen Kilometer innerhalb des Leasingzeitraums.
 
 ### Installation über HACS als Custom Repository
 
@@ -87,7 +89,7 @@ mehrkilometer = max(hochrechnung_gefahrene_km - inklusive_leasing_km, 0)
 nachzahlung = mehrkilometer * kosten_je_mehr_km
 ```
 
-Die Sensoren aktualisieren sich, wenn sich der Kilometerstand-Sensor ändert, und zusätzlich einmal täglich kurz nach Mitternacht.
+Die Sensoren aktualisieren sich, wenn sich die Kilometerstand-Entität ändert, und zusätzlich einmal täglich kurz nach Mitternacht.
 
 ### Repository-Beschreibung für GitHub
 
@@ -101,7 +103,7 @@ Home Assistant custom integration to track lease mileage, projected mileage at l
 
 **Leasing Mileage** is a Home Assistant custom integration that calculates lease mileage for one or more vehicles and groups all related sensors per vehicle.
 
-The integration is fully configured through the Home Assistant UI. For each vehicle, you enter the vehicle name, lease period, odometer sensor, included lease mileage and cost per excess kilometer.
+The integration is fully configured through the Home Assistant UI. For each vehicle, you enter the vehicle name, lease period, odometer entity, included lease mileage and cost per excess kilometer.
 
 ### Features
 
@@ -126,12 +128,14 @@ For the Cupra example, the setup dialog would use these values:
 | Lease vehicle name | `Cupra` |
 | Lease start | `2024-11-01` |
 | Lease end | `2027-10-30` |
-| Current odometer sensor | `sensor.garage_homeassistant_kilometerstand` |
+| Current odometer entity | `sensor.garage_homeassistant_kilometerstand` |
 | Odometer at lease start | `0` |
 | Included lease mileage | `32500` |
 | Cost per excess km | `0.10` |
 
-If your odometer sensor returns the full vehicle odometer reading and the vehicle did not start at 0 km when the lease began, enter the odometer reading from the lease start date in **Odometer at lease start**. The integration will then only use kilometers driven during the lease period.
+You can select either a regular `sensor` or an `input_number` as the odometer entity. This is useful if you want to maintain the odometer value manually.
+
+If your odometer entity returns the full vehicle odometer reading and the vehicle did not start at 0 km when the lease began, enter the odometer reading from the lease start date in **Odometer at lease start**. The integration will then only use kilometers driven during the lease period.
 
 ### HACS custom repository installation
 
@@ -180,7 +184,7 @@ excess_km = max(projected_driven_km - included_lease_km, 0)
 excess_fee = excess_km * cost_per_excess_km
 ```
 
-The sensors update whenever the odometer sensor changes and once per day shortly after midnight.
+The sensors update whenever the odometer entity changes and once per day shortly after midnight.
 
 ### GitHub repository description
 

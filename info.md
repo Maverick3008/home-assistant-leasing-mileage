@@ -11,3 +11,8 @@ Die Integration ist vollständig über die Home-Assistant Oberfläche konfigurie
 Calculates lease mileage, mileage per day, projected excess mileage and an estimated excess mileage fee per vehicle.
 
 The integration is fully configurable through the Home Assistant UI and can be added multiple times for multiple vehicles. Each vehicle gets its own device with grouped sensors.
+
+
+Deutsch: Als Kilometerstand-Entität kann ein normaler Sensor oder ein `input_number` verwendet werden.
+
+English: The odometer entity can be a regular sensor or an `input_number`.
